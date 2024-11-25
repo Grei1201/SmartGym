@@ -16,3 +16,14 @@ class Program
         }
     }
 }
+class Program
+{
+    static void Main(string[] args)
+    {
+        IDatos datos = new DatosJson(); // O cualquier implementación de IDatos
+        var vista = new Vista();
+        var usuarioController = new UsuarioController(datos, vista);
+
+        usuarioController.IniciarSesion();
+    }
+}
