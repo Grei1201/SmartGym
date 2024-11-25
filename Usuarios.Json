@@ -1,7 +1,0 @@
-[
-    { "Id": 1, "Nombre": "Cliente1", "Correo": "cliente1@ejemplo.com", "Telefono": "111-1111", "Contraseña": "password123", "Tipo": "Cliente", "Membresia": { "Id": 1, "FechaInicio": "2023-01-01", "FechaFin": "2023-12-31" }},
-    { "Id": 2, "Nombre": "Cliente2", "Correo": "cliente2@ejemplo.com", "Telefono": "222-2222", "Contraseña": "password456", "Tipo": "Cliente", "Membresia": { "Id": 2, "FechaInicio": "2023-02-01", "FechaFin": "2023-12-31" }},
-    { "Id": 4, "Nombre": "Entrenador1", "Correo": "entrenador1@ejemplo.com", "Telefono": "444-4444", "Contraseña": "password789", "Tipo": "Entrenador", "Horario": "Lunes a Viernes 9:00-17:00", "PuntosFuertes": "Cardio" },
-    { "Id": 5, "Nombre": "Entrenador2", "Correo": "entrenador2@ejemplo.com", "Telefono": "555-5555", "Contraseña": "password012", "Tipo": "Entrenador", "Horario": "Lunes a Viernes 10:00-18:00", "PuntosFuertes": "Fuerza" }
-  ]
-  
