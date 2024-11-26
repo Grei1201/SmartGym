@@ -13,6 +13,13 @@ namespace GymManagement
         public DateTime FechaInicioMembresia { get; set; }
         public DateTime FechaFinMembresia { get; set; }
 
+        // Constructor que establece el rol del cliente.
+        public Cliente()
+        {
+            Rol = "Cliente"
+        }
+
+// Método para obtener una cadena de texto con la información del cliente.
         public override string ToString()
         {
             return $"ID: {Id}, Nombre: {Nombre} {Apellido}, Edad: {Edad}, " +
