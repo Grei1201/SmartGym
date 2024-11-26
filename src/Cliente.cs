@@ -11,11 +11,12 @@ namespace GymManagement
         public int Edad { get; set; }
         public bool MembresiaActiva { get; set; }
         public DateTime FechaInicioMembresia { get; set; }
+        public DateTime FechaFinMembresia { get; set; }
 
         public override string ToString()
         {
             return $"ID: {Id}, Nombre: {Nombre} {Apellido}, Edad: {Edad}, " +
-                   $"Membresía Activa: {MembresiaActiva}, Fecha Inicio: {FechaInicioMembresia:yyyy-MM-dd}";
+                   $"Membresía Activa: {MembresiaActiva}, Fecha Inicio: {FechaInicioMembresia:yyyy-MM-dd}, Fecha Fin: {FechaFinMembresia:yyyy-MM-dd}";
         }
     }
 }

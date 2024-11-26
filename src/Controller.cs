@@ -44,7 +44,8 @@ namespace GymManagement
                 Apellido = apellido,
                 Edad = edad,
                 MembresiaActiva = membresiaActiva,
-                FechaInicioMembresia = DateTime.Now
+                FechaInicioMembresia = DateTime.Now,
+                FechaFinMembresia = DateTime.Now.AddMonths(1)
             };
 
             var clientes = LeerClientes();
@@ -120,6 +121,13 @@ namespace GymManagement
             Console.WriteLine($"Cliente '{cliente.Nombre} {cliente.Apellido}' eliminado con éxito.");
         }
 
+        public static void NotificarCobro(Cliente cliente){
+            var diasRestantes = (VerClientes.FechaFinMembresia - DateTime.Now).Days;
+            if (diasRestantes <= 5)
+            {
+                Console.WriteLine($"Notificación: La membresía del cliente {cliente.Nombre} {cliente.Apellido} vence en {diasRestantes} días. Por favor, realice el pago.");
+            }
+        }
         public static void VerClientes()
         {
             Console.Clear();
@@ -132,6 +140,7 @@ namespace GymManagement
                 foreach (var cliente in clientes)
                 {
                     Console.WriteLine(cliente.ToString());
+                    NotificarCobro(cliente);
                 }
             }
             else
