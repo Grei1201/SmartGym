@@ -1,3 +1,5 @@
+using System;
+
 // Esta clase es para: Gestionar las reservas de los clientes para las clases y el gimnasio.
 public class Reserva
 {

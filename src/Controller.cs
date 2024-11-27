@@ -2,13 +2,46 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Linq;
 
 namespace GymManagement
 {
     public static class GymController
     {
-        private static readonly string FilePath = "clientes.json";
+        private static readonly string FilePathClientes = "clientes.json";
+        private static readonly string FilePathClases = "clases.json";
+        private static readonly string FilePathReservas = "reservas.json";
 
+        private static List<Cliente> _clientes;
+        private static List<Entrenador> _entrenadores;
+        private static List<ClaseGimnasio> _clases;
+        private static List<Reserva> _reservas = new List<Reserva>();
+        private static int _siguienteIdReserva = 1;
+
+        // Método para cargar datos iniciales de clientes, entrenadores y clases.
+        public static void CargarDatos(List<Cliente> clientes, List<Entrenador> entrenadores)
+        {
+            _clientes = clientes;
+            _entrenadores = entrenadores;
+            _clases = LeerClasesDesdeJson(FilePathClases);
+            _reservas = LeerReservasDesdeJson(FilePathReservas);
+            AsignarReservasAClases();
+        }
+
+        // Método para asignar las reservas cargadas a las clases correspondientes.
+        private static void AsignarReservasAClases()
+        {
+            foreach (var reserva in _reservas)
+            {
+                var clase = _clases.FirstOrDefault(c => c.Id == reserva.ClaseId);
+                if (clase != null)
+                {
+                    clase.Reservas.Add(reserva);
+                }
+            }
+        }
+
+        // Método para registrar un nuevo cliente.
         public static void RegistrarCliente()
         {
             Console.Clear();
@@ -54,6 +87,8 @@ namespace GymManagement
 
             Console.WriteLine($"Cliente '{nombre} {apellido}' registrado con éxito.");
         }
+
+        // Método para editar un cliente existente.
         public static void EditarCliente()
         {
             Console.Clear();
@@ -96,6 +131,7 @@ namespace GymManagement
             Console.WriteLine("Cliente actualizado con éxito.");
         }
 
+        // Método para eliminar un cliente.
         public static void EliminarCliente()
         {
             Console.Clear();
@@ -121,13 +157,17 @@ namespace GymManagement
             Console.WriteLine($"Cliente '{cliente.Nombre} {cliente.Apellido}' eliminado con éxito.");
         }
 
-        public static void NotificarCobro(Cliente cliente){
-            var diasRestantes = (VerClientes.FechaFinMembresia - DateTime.Now).Days;
+        // Método para notificar el cobro a un cliente.
+        public static void NotificarCobro(Cliente cliente)
+        {
+            var diasRestantes = (cliente.FechaFinMembresia - DateTime.Now).Days;
             if (diasRestantes <= 5)
             {
                 Console.WriteLine($"Notificación: La membresía del cliente {cliente.Nombre} {cliente.Apellido} vence en {diasRestantes} días. Por favor, realice el pago.");
             }
         }
+
+        // Método para ver la lista de clientes.
         public static void VerClientes()
         {
             Console.Clear();
@@ -149,21 +189,169 @@ namespace GymManagement
             }
         }
 
+        // Método para gestionar la reserva de una clase por parte de un cliente.
+        public static void ReservarClase()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Reservar Clase ===");
+
+            Console.Write("Ingrese el ID del cliente: ");
+            if (!int.TryParse(Console.ReadLine(), out int clienteId))
+            {
+                Console.WriteLine("ID inválido. Operación cancelada.");
+                return;
+            }
+
+            var cliente = _clientes.FirstOrDefault(c => c.Id == clienteId);
+            if (cliente == null)
+            {
+                Console.WriteLine("Cliente no encontrado.");
+                return;
+            }
+
+            Console.Write("Ingrese el ID de la clase: ");
+            if (!int.TryParse(Console.ReadLine(), out int claseId))
+            {
+                Console.WriteLine("ID inválido. Operación cancelada.");
+                return;
+            }
+
+            var clase = _clases.FirstOrDefault(c => c.Id == claseId);
+            if (clase == null)
+            {
+                Console.WriteLine("Clase no encontrada.");
+                return;
+            }
+
+            var nuevaReserva = new Reserva
+            {
+                Id = _siguienteIdReserva++,
+                ClienteId = clienteId,
+                ClaseId = claseId,
+                FechaReserva = DateTime.Now
+            };
+
+            if (clase.AñadirReserva(nuevaReserva))
+            {
+                _reservas.Add(nuevaReserva);
+                GuardarReservas();
+                Console.WriteLine("Reserva realizada con éxito.");
+            }
+            else
+            {
+                Console.WriteLine("No hay cupos disponibles para esta clase.");
+            }
+        }
+
+        // Método para ver las reservas de un cliente específico.
+        public static void VerReservasCliente(int clienteId)
+        {
+            Console.Clear();
+            Console.WriteLine($"=== Reservas del Cliente {clienteId} ===");
+
+            var reservasCliente = _reservas.Where(r => r.ClienteId == clienteId).ToList();
+
+            if (reservasCliente.Count > 0)
+            {
+                foreach (var reserva in reservasCliente)
+                {
+                    var clase = _clases.FirstOrDefault(c => c.Id == reserva.ClaseId);
+                    if (clase != null)
+                    {
+                        Console.WriteLine($"Reserva ID: {reserva.Id}, Clase: {clase.Nombre}, Horario: {clase.Horario}");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No hay reservas para este cliente.");
+            }
+        }
+
+                // Método para ver las reservas de las clases asignadas a un entrenador específico.
+        public static void VerReservasEntrenador(int entrenadorId)
+        {
+            Console.Clear();
+            Console.WriteLine($"=== Reservas para el Entrenador {entrenadorId} ===");
+
+            var clasesEntrenador = _clases.Where(c => c.EntrenadorId == entrenadorId).ToList();
+
+            if (clasesEntrenador.Count > 0)
+            {
+                foreach (var clase in clasesEntrenador)
+                {
+                    Console.WriteLine($"\nClase: {clase.Nombre}, Horario: {clase.Horario}");
+                    if (clase.Reservas.Count > 0)
+                    {
+                        foreach (var reserva in clase.Reservas)
+                        {
+                            var cliente = _clientes.FirstOrDefault(c => c.Id == reserva.ClienteId);
+                            if (cliente != null)
+                            {
+                                Console.WriteLine($"- Reserva ID: {reserva.Id}, Cliente: {cliente.Nombre} {cliente.Apellido}");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay reservas para esta clase.");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No hay clases asignadas a este entrenador.");
+            }
+        }
+
+        // Método para leer las clases desde un archivo JSON.
+        private static List<ClaseGimnasio> LeerClasesDesdeJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return new List<ClaseGimnasio>();
+            }
+
+            string json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<ClaseGimnasio>>(json) ?? new List<ClaseGimnasio>();
+        }
+
+        // Método para leer las reservas desde un archivo JSON.
+        private static List<Reserva> LeerReservasDesdeJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return new List<Reserva>();
+            }
+
+            string json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<Reserva>>(json) ?? new List<Reserva>();
+        }
+
+        // Método para guardar las reservas en un archivo JSON.
+        private static void GuardarReservas()
+        {
+            string json = JsonSerializer.Serialize(_reservas, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePathReservas, json);
+        }
+
+        // Método para leer los clientes desde un archivo JSON.
         private static List<Cliente> LeerClientes()
         {
-            if (!File.Exists(FilePath))
+            if (!File.Exists(FilePathClientes))
             {
                 return new List<Cliente>();
             }
 
-            string json = File.ReadAllText(FilePath);
+            string json = File.ReadAllText(FilePathClientes);
             return JsonSerializer.Deserialize<List<Cliente>>(json) ?? new List<Cliente>();
         }
 
+        // Método para guardar los clientes en un archivo JSON.
         private static void GuardarClientes(List<Cliente> clientes)
         {
             string json = JsonSerializer.Serialize(clientes, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(FilePath, json);
+            File.WriteAllText(FilePathClientes, json);
         }
     }
 }
