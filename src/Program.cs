@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GymManagement
 {
@@ -6,48 +7,81 @@ namespace GymManagement
     {
         static void Main(string[] args)
         {
-            bool running = true;  // Variable para controlar el bucle del menú.
+            // Cargar los datos al controlador
+            GymController.CargarDatos();
 
-            while (running)
+            bool continuar = true;
+            while (continuar)
             {
-                Console.Clear();  // Limpia la consola.
-                Console.WriteLine("Sistema de Gestión del Gym ");
-                Console.WriteLine("1. Registrar nuevo cliente");
-                Console.WriteLine("2. Ver lista de clientes");
-                Console.WriteLine("3. Editar cliente");
-                Console.WriteLine("4. Eliminar cliente");
-                Console.WriteLine("5. Salir");
+                Console.Clear();
+                Console.WriteLine("=== Gestión del Gimnasio ===");
+                Console.WriteLine("1. Registrar Cliente");
+                Console.WriteLine("2. Ver Clientes");
+                Console.WriteLine("3. Editar Cliente");
+                Console.WriteLine("4. Eliminar Cliente");
+                Console.WriteLine("5. Reservar Clase");
+                Console.WriteLine("6. Ver Reservas de Clientes");
+                Console.WriteLine("7. Ver Reservas de Entrenadores");
+                Console.WriteLine("8. Registrar Equipo");
+                Console.WriteLine("9. Verificar Alertas de Mantenimiento");
+                Console.WriteLine("10. Salir");
                 Console.Write("Seleccione una opción: ");
-                string opcion = Console.ReadLine();
 
-                switch (opcion)
+                switch (Console.ReadLine())
                 {
                     case "1":
-                        GymController.RegistrarCliente();  // Llama al método para registrar un nuevo cliente.
+                        GymController.RegistrarCliente();
                         break;
                     case "2":
-                        GymController.VerClientes();  // Llama al método para ver la lista de clientes.
+                        GymController.VerClientes();
                         break;
                     case "3":
-                        GymController.EditarCliente();  // Llama al método para editar un cliente.
+                        GymController.EditarCliente();
                         break;
                     case "4":
-                        GymController.EliminarCliente();  // Llama al método para eliminar un cliente.
+                        GymController.EliminarCliente();
                         break;
                     case "5":
-                        running = false;  // Cambia la variable 'running' a false para salir del bucle.
-                        Console.WriteLine("Saliendo del sistema...");
+                        GymController.ReservarClase();
+                        break;
+                    case "6":
+                        Console.Write("Ingrese el ID del cliente: ");
+                        if (int.TryParse(Console.ReadLine(), out int clienteId))
+                        {
+                            GymController.VerReservasCliente(clienteId);
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID inválido.");
+                        }
+                        break;
+                    case "7":
+                        Console.Write("Ingrese el ID del entrenador: ");
+                        if (int.TryParse(Console.ReadLine(), out int entrenadorId))
+                        {
+                            GymController.VerReservasEntrenador(entrenadorId);
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID inválido.");
+                        }
+                        break;
+                    case "8":
+                        GymController.RegistrarEquipo();
+                        break;
+                    case "9":
+                        GymController.VerificarAlertasMantenimiento();
+                        break;
+                    case "10":
+                        continuar = false;
                         break;
                     default:
-                        Console.WriteLine("Opción inválida. Inténtelo nuevamente.");  // Mensaje para opciones inválidas.
+                        Console.WriteLine("Opción inválida.");
                         break;
                 }
 
-                if (running)
-                {
-                    Console.WriteLine("\nPresione cualquier tecla para continuar...");
-                    Console.ReadKey();  // Espera a que el usuario presione una tecla para continuar.
-                }
+                Console.WriteLine("Presione una tecla para continuar...");
+                Console.ReadKey();
             }
         }
     }

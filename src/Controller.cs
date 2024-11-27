@@ -11,22 +11,25 @@ namespace GymManagement
         private static readonly string FilePathClientes = "clientes.json";
         private static readonly string FilePathClases = "clases.json";
         private static readonly string FilePathReservas = "reservas.json";
+        private static readonly string FilePathEquipos = "equipos.json";
 
         private static List<Cliente> _clientes;
         private static List<Entrenador> _entrenadores;
         private static List<ClaseGimnasio> _clases;
         private static List<Reserva> _reservas = new List<Reserva>();
+        private static List<Equipo> _equipos = new List<Equipo>();
         private static int _siguienteIdReserva = 1;
 
         // Método para cargar datos iniciales de clientes, entrenadores y clases.
-        public static void CargarDatos(List<Cliente> clientes, List<Entrenador> entrenadores)
+        public static void CargarDatos()
         {
-            _clientes = clientes;
-            _entrenadores = entrenadores;
+            _clientes = LeerClientes(FilePathClientes);
+            _entrenadores = LeerEntrenadoresDesdeJson(FilePathEntrenadores);
             _clases = LeerClasesDesdeJson(FilePathClases);
             _reservas = LeerReservasDesdeJson(FilePathReservas);
+            _equipos = LeerEquiposDesdeJson(FilePathEquipos);
             AsignarReservasAClases();
-        }
+    }
 
         // Método para asignar las reservas cargadas a las clases correspondientes.
         private static void AsignarReservasAClases()
@@ -39,6 +42,86 @@ namespace GymManagement
                     clase.Reservas.Add(reserva);
                 }
             }
+        }
+       // Metodo para registrar un nuevo equipo
+        public static void RegistrarEquipo()
+        { 
+            Console.Clear();
+            Console.WriteLine("Registrar nuevo equipo");
+
+            Console.Write("Ingrese el ID del equipo: ");
+            if (!int.TryParse(Console.ReadLine(), out int id)) 
+            { 
+                Console.WriteLine("ID inválido. Operación cancelada.");
+                return; 
+            } 
+            
+            Console.Write("Ingrese el nombre del equipo: ");
+            string nombre = Console.ReadLine();
+            Console.Write("Ingrese la fecha de compra (yyyy-MM-dd): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime fechaCompra))
+            {
+                Console.WriteLine("Fecha inválida. Operación cancelada.");
+                 return;
+            } 
+            
+            Console.Write("Ingrese la fecha de fin de vida útil (yyyy-MM-dd): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime fechaFinVidaUtil))
+            {
+                Console.WriteLine("Fecha inválida. Operación cancelada.");
+                return;
+            } 
+            
+            var nuevoEquipo = new Equipo 
+            { 
+                Id = id,
+                Nombre = nombre,
+                FechaCompra = fechaCompra,
+                FechaFinVidaUtil = fechaFinVidaUtil
+            };
+
+            _equipos.Add(nuevoEquipo);
+            GuardarEquipos();
+
+            Console.WriteLine($"Equipo '{nombre}' registrado con éxito.");
+        }
+        // Metodo para verificar alertas de mantenimiento
+        public static void VerificarAlertasMantenimiento()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Alertas de Mantenimiento ===");
+            
+            var equiposNecesitanMantenimiento = _equipos.Where(e => e.NecesitaMantenimiento()).ToList();
+            if (equiposNecesitanMantenimiento.Count > 0) 
+            { 
+                foreach (var equipo in equiposNecesitanMantenimiento)
+                { 
+                    Console.WriteLine($"Equipo: {equipo.Nombre}, Fecha Fin de Vida Útil: {equipo.FechaFinVidaUtil:yyyy-MM-dd}");
+                } 
+            }
+            else
+            {
+                Console.WriteLine("No hay equipos que necesiten mantenimiento próximamente.");
+            }
+        } 
+        
+        // Método para leer los equipos desde un archivo JSON.
+         private static List<Equipo> LeerEquiposDesdeJson(string filePath)
+         {
+            if (!File.Exists(filePath))
+            {
+                return new List<Equipo>();
+            }
+            
+             string json = File.ReadAllText(filePath);
+             return JsonSerializer.Deserialize<List<Equipo>>(json) ?? new List<Equipo>();
+        }
+
+        // Método para guardar los equipos en un archivo JSON.
+        private static void GuardarEquipos()
+        {
+            string json = JsonSerializer.Serialize(_equipos, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(FilePathEquipos, json);
         }
 
         // Método para registrar un nuevo cliente.
@@ -304,6 +387,18 @@ namespace GymManagement
             }
         }
 
+        private static List<Entrenador> LeerEntrenadoresDesdeJson(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                return new List<Entrenador>();
+            }
+            
+            string json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<Entrenador>>(json) ?? new List<Entrenador>();
+        }
+
+
         // Método para leer las clases desde un archivo JSON.
         private static List<ClaseGimnasio> LeerClasesDesdeJson(string filePath)
         {
@@ -336,7 +431,7 @@ namespace GymManagement
         }
 
         // Método para leer los clientes desde un archivo JSON.
-        private static List<Cliente> LeerClientes()
+        private static List<Cliente> LeerClientes(string filePath)
         {
             if (!File.Exists(FilePathClientes))
             {
@@ -353,5 +448,19 @@ namespace GymManagement
             string json = JsonSerializer.Serialize(clientes, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(FilePathClientes, json);
         }
+
+        // Metodo para guardar los clientes en un archivo JSON.
+        private static void GuardarEntrenadores(List<Entrenador> entrenadores)
+{
+    string json = JsonSerializer.Serialize(entrenadores, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(FilePathEntrenadores, json);
+}
+//Metodo para guardaar clases en un archivo JSON.
+private static void GuardarClases(List<ClaseGimnasio> clases)
+{
+    string json = JsonSerializer.Serialize(clases, new JsonSerializerOptions { WriteIndented = true });
+    File.WriteAllText(FilePathClases, json);
+}
+
     }
 }
