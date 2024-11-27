@@ -1,0 +1,122 @@
+[
+    {
+        "Id": 1,
+        "Nombre": "Cinta de Correr",
+        "FechaCompra": "2022-01-15",
+        "FechaFinVidaUtil": "2025-01-15"
+    },
+    {
+        "Id": 2,
+        "Nombre": "Bicicleta Estática",
+        "FechaCompra": "2021-03-10",
+        "FechaFinVidaUtil": "2024-03-10"
+    },
+    {
+        "Id": 3,
+        "Nombre": "Máquina de Remo",
+        "FechaCompra": "2021-06-20",
+        "FechaFinVidaUtil": "2024-06-20"
+    },
+    {
+        "Id": 4,
+        "Nombre": "Máquina de Pesas",
+        "FechaCompra": "2022-09-05",
+        "FechaFinVidaUtil": "2025-09-05"
+    },
+    {
+        "Id": 5,
+        "Nombre": "Elíptica",
+        "FechaCompra": "2020-12-01",
+        "FechaFinVidaUtil": "2023-12-01"
+    },
+    {
+        "Id": 6,
+        "Nombre": "Stepper",
+        "FechaCompra": "2022-02-15",
+        "FechaFinVidaUtil": "2025-02-15"
+    },
+    {
+        "Id": 7,
+        "Nombre": "Banco de Pesas",
+        "FechaCompra": "2021-07-10",
+        "FechaFinVidaUtil": "2024-07-10"
+    },
+    {
+        "Id": 8,
+        "Nombre": "Máquina de Piernas",
+        "FechaCompra": "2021-11-05",
+        "FechaFinVidaUtil": "2024-11-05"
+    },
+    {
+        "Id": 9,
+        "Nombre": "Máquina de Pecho",
+        "FechaCompra": "2020-08-20",
+        "FechaFinVidaUtil": "2023-08-20"
+    },
+    {
+        "Id": 10,
+        "Nombre": "Press de Hombros",
+        "FechaCompra": "2021-05-10",
+        "FechaFinVidaUtil": "2024-05-10"
+    },
+    {
+        "Id": 11,
+        "Nombre": "Máquina de Espalda",
+        "FechaCompra": "2022-03-25",
+        "FechaFinVidaUtil": "2025-03-25"
+    },
+    {
+        "Id": 12,
+        "Nombre": "Máquina de Abdominales",
+        "FechaCompra": "2021-01-15",
+        "FechaFinVidaUtil": "2024-01-15"
+    },
+    {
+        "Id": 13,
+        "Nombre": "Smith Machine",
+        "FechaCompra": "2021-04-20",
+        "FechaFinVidaUtil": "2024-04-20"
+    },
+    {
+        "Id": 14,
+        "Nombre": "Rack de Sentadillas",
+        "FechaCompra": "2022-05-15",
+        "FechaFinVidaUtil": "2025-05-15"
+    },
+    {
+        "Id": 15,
+        "Nombre": "Máquina de Gemelos",
+        "FechaCompra": "2020-09-10",
+        "FechaFinVidaUtil": "2023-09-10"
+    },
+    {
+        "Id": 16,
+        "Nombre": "Máquina de Glúteos",
+        "FechaCompra": "2021-08-15",
+        "FechaFinVidaUtil": "2024-08-15"
+    },
+    {
+        "Id": 17,
+        "Nombre": "Máquina de Isquiotibiales",
+        "FechaCompra": "2022-07-01",
+        "FechaFinVidaUtil": "2025-07-01"
+    },
+    {
+        "Id": 18,
+        "Nombre": "Máquina de Cuádriceps",
+        "FechaCompra": "2021-02-20",
+        "FechaFinVidaUtil": "2024-02-20"
+    },
+    {
+        "Id": 19,
+        "Nombre": "Cuerda de Batalla",
+        "FechaCompra": "2020-11-05",
+        "FechaFinVidaUtil": "2023-11-05"
+    },
+    {
+        "Id": 20,
+        "Nombre": "Kettlebells",
+        "FechaCompra": "2021-09-10",
+        "FechaFinVidaUtil": "2024-09-10"
+    }
+]
