@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Monserrat', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../Home/imagenes/GymSmart\ logo.png'); 
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+}
+
+.container {
+    background: rgba(42, 100, 131, 0.512);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.trainer-card {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    text-align: left;
+}
+
+.trainer-card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.trainer-card h2 {
+    color: #2a6483;
+    margin-bottom: 10px;
+}
+
+.trainer-card p {
+    color: #333;
+    margin-bottom: 5px;
+}
