@@ -1,0 +1,6 @@
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.AssemblyInfoInputs.cache
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.AssemblyInfo.cs
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.csproj.CoreCompileInputs.cache
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.MvcApplicationPartsAssemblyInfo.cache
+C:\repositorio\GymSmart\src\GymSmartApp\obj\Debug\net8.0\GymSmartApp.sourcelink.json
